@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: cronosdevs/backend-service:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: X_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-key-secret
+              key: x-api-key
